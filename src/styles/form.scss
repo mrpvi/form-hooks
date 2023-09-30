@@ -1,0 +1,66 @@
+.form {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 24px;
+    margin: 0 auto;
+    width: 560px;
+
+    &__field {
+
+        label {
+            display: block;
+            font-size: 12px;
+            color: #404040;
+            margin-bottom: 8px;
+        }
+        input {
+            border: 1px solid #a3a3a3;
+            padding: 14px;
+            border-radius: 4px;
+            width: 100%;
+        }
+        select {
+            border: 1px solid #a3a3a3;
+            padding: 14px;
+            border-radius: 4px;
+            width: 100%;
+        }
+
+        &__error {
+            border-color: red;
+        }
+    }
+    &__error-msg {
+        color: red;
+        font-size: 12px;
+    }
+    &__btn {
+        outline: none;
+        border: 1px solid #ff4232;
+        border-radius: 4px;
+        color: #ff4232;
+        padding: 16px;
+        background: transparent;
+        font-weight: 600;
+    }
+}
+
+@media (max-width: 768px) {
+    .form {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        width: 100%;
+    }
+}
+
+
+.form-section {
+    margin-top:  48px;
+
+    &__header {
+        background: #ff4232;
+        padding: 16px;
+        color: #fff;
+        font-size: 24px;
+        margin-bottom: 24px;
+    }
+}
