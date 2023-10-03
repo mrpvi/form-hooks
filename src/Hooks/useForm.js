@@ -1,6 +1,5 @@
 import { useState } from 'react';
 
-
 const useForm = (initialValues, validationSchema, onSubmit) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
@@ -27,11 +26,14 @@ const useForm = (initialValues, validationSchema, onSubmit) => {
     event.preventDefault();
     setIsSubmitting(true);
 
+    const formData = new FormData(event.target);
+    const currentValues = initialValues == null ? Object.fromEntries(formData) : values;
+
     validationSchema
-      .validate(values, { abortEarly: false })
+      .validate(currentValues, { abortEarly: false })
       .then(() => {
         setErrors({});
-        onSubmit(values);
+        onSubmit(currentValues);
       })
       .catch((validationErrors) => {
         const newErrors = {};
