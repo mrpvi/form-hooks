@@ -1,10 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import YupValidate from '../utils/YupValidate';
 
 const useForm = (initialValues, validationSchema, onSubmit) => {
   const [values, setValues] = useState(initialValues);
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const formRef = useRef('')
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -20,29 +22,33 @@ const useForm = (initialValues, validationSchema, onSubmit) => {
       ...touched,
       [name]: true,
     });
+
+    let currentValues;
+    if (formRef.current && initialValues == null) {
+      const formData = new FormData(formRef.current);
+      currentValues = Object.fromEntries(formData)
+    }else {
+      currentValues = values
+    }
+    YupValidate(validationSchema, currentValues, setErrors)
   };
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    setIsSubmitting(true);
 
-    const formData = new FormData(event.target);
-    const currentValues = initialValues == null ? Object.fromEntries(formData) : values;
+    let currentValues;
+    if (formRef.current && initialValues == null) {
+      const formData = new FormData(formRef.current);
+      currentValues = Object.fromEntries(formData)
+    }else {
+      currentValues = values
+    }
 
-    validationSchema
-      .validate(currentValues, { abortEarly: false })
-      .then(() => {
-        setErrors({});
-        onSubmit(currentValues);
-      })
-      .catch((validationErrors) => {
-        const newErrors = {};
-        validationErrors.inner.forEach((error) => {
-          newErrors[error.path] = error.message;
-        });
-        setErrors(newErrors);
-        setIsSubmitting(false);
-      });
+    YupValidate(validationSchema, currentValues, setErrors)
+    if (Object.keys(errors).length == 0) {
+      onSubmit(currentValues)
+      setIsSubmitting(true)
+    }
   };
 
   return {
@@ -53,6 +59,7 @@ const useForm = (initialValues, validationSchema, onSubmit) => {
     handleBlur,
     handleSubmit: handleFormSubmit,
     isSubmitting,
+    formRef
   };
 };
 

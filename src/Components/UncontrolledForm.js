@@ -16,8 +16,9 @@ const UncontrolledForm = () => {
   });
 
   const {
-    errors,
     touched,
+    formRef,
+    errors,
     handleBlur,
     handleSubmit,
     isSubmitting,
@@ -26,13 +27,14 @@ const UncontrolledForm = () => {
   return (
     <section className='form-section container'>
         <div className='form-section__header'>Uncontrolled</div>
-        <form onSubmit={handleSubmit} className='form'>
+        <form onSubmit={handleSubmit} className='form' ref={formRef}>
             <div className='form__field'>
             <label>نام</label>
             <input
                 type="text"
                 name="name"
                 onBlur={handleBlur}
+                disabled={isSubmitting}
             />
             {touched.name && errors.name && <div className='form__error-msg' >{errors.name}</div>}
             </div>
@@ -42,6 +44,7 @@ const UncontrolledForm = () => {
                 type="text"
                 name="family"
                 onBlur={handleBlur}
+                disabled={isSubmitting}
             />
             {touched.family && errors.family && <div className='form__error-msg' >{errors.family}</div>}
             </div>
@@ -51,6 +54,7 @@ const UncontrolledForm = () => {
                 type="text"
                 name="national_number"
                 onBlur={handleBlur}
+                disabled={isSubmitting}
             />
             {touched.national_number && errors.national_number && <div className='form__error-msg'>{errors.national_number}</div>}
             </div>
@@ -59,6 +63,7 @@ const UncontrolledForm = () => {
             <select 
                 name="nationality"
                 onBlur={handleBlur}
+                disabled={isSubmitting}
             >
                 <option value="true">ایرانی</option>
                 <option value="false">غیرایرانی</option>

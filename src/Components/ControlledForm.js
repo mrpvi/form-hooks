@@ -46,6 +46,7 @@ const ControlledForm = () => {
                 value={values.name}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                disabled={isSubmitting}
               />
               {touched.name && errors.name && <div className='form__error-msg' >{errors.name}</div>}
             </div>
@@ -57,6 +58,7 @@ const ControlledForm = () => {
                 value={values.family}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                disabled={isSubmitting}
               />
               {touched.family && errors.family && <div className='form__error-msg' >{errors.family}</div>}
             </div>
@@ -68,6 +70,7 @@ const ControlledForm = () => {
                 value={values.national_number}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                disabled={isSubmitting}
               />
               {touched.national_number && errors.national_number && <div className='form__error-msg'>{errors.national_number}</div>}
             </div>
@@ -78,6 +81,7 @@ const ControlledForm = () => {
                 value={values.nationality}
                 onChange={handleChange}
                 onBlur={handleBlur}
+                disabled={isSubmitting}
               >
                 <option value="true">ایرانی</option>
                 <option value="false">غیرایرانی</option>
